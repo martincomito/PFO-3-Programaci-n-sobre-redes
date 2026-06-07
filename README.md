@@ -12,10 +12,6 @@ La versión anterior usaba Flask, HTTP y SQLite. Esta versión reemplaza la API 
 - SQLite: persistencia local para usuarios y tareas del prototipo.
 - Protocolo: mensajes JSON terminados en salto de línea.
 
-## Diagrama del sistema distribuido
-
-
-
 ## Requisitos
 
 - Python 3.10 o superior
@@ -92,3 +88,9 @@ Respuesta:
 - `servidor.py`: servidor TCP, pool de workers, persistencia SQLite.
 - `cliente.py`: cliente interactivo por consola.
 - `docs/index.html`: página de documentación.
+
+## Diagrama del sistema distribuido (Punto 1)
+
+<img width="5124" height="3219" alt="Web Client Load Balancing-2026-06-07-232844" src="https://github.com/user-attachments/assets/7222b8c7-9159-4811-94cb-90e295ad48a7" />
+
+
