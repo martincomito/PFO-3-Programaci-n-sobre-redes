@@ -14,57 +14,7 @@ La versión anterior usaba Flask, HTTP y SQLite. Esta versión reemplaza la API 
 
 ## Diagrama del sistema distribuido
 
-El siguiente código está en formato PlantUML. Se puede pegar en herramientas gratuitas como:
 
-- [PlantText](https://www.planttext.com/)
-- [PlantUML Online Server](https://www.plantuml.com/plantuml/)
-
-```plantuml
-@startuml
-title PFO 3 - Arquitectura distribuida cliente-servidor
-
-skinparam componentStyle rectangle
-skinparam shadowing false
-skinparam linetype ortho
-
-actor "Cliente web" as Web
-actor "Cliente movil" as Mobile
-
-node "Balanceador de carga\nNginx / HAProxy" as LB
-
-node "Servidor worker 1" as Worker1 {
-  component "Servidor TCP" as TCP1
-  component "Pool de hilos" as Pool1
-}
-
-node "Servidor worker 2" as Worker2 {
-  component "Servidor TCP" as TCP2
-  component "Pool de hilos" as Pool2
-}
-
-queue "Cola de mensajes\nRabbitMQ" as Rabbit
-database "PostgreSQL\nBase distribuida" as Postgres
-cloud "S3\nAlmacenamiento distribuido" as S3
-
-Web --> LB : Solicitudes TCP/HTTP
-Mobile --> LB : Solicitudes TCP/HTTP
-
-LB --> TCP1 : Distribuye carga
-LB --> TCP2 : Distribuye carga
-
-TCP1 --> Pool1 : Asigna tareas
-TCP2 --> Pool2 : Asigna tareas
-
-Pool1 <--> Rabbit : Eventos entre servidores
-Pool2 <--> Rabbit : Eventos entre servidores
-
-Pool1 --> Postgres : Lee/escribe tareas
-Pool2 --> Postgres : Lee/escribe tareas
-
-Pool1 --> S3 : Adjuntos/backups
-Pool2 --> S3 : Adjuntos/backups
-@enduml
-```
 
 ## Requisitos
 
@@ -137,15 +87,8 @@ Respuesta:
 {"ok":true,"mensaje":"Tarea creada.","tarea":{"id":1,"descripcion":"Estudiar sockets","creada_en":"2026-06-07 13:30:00"}}
 ```
 
-## Relación con la consigna
-
-- El punto 1 se cubre con el diagrama de arquitectura distribuida.
-- El punto 2 se cubre con el servidor TCP que recibe tareas por socket, las distribuye a workers y devuelve respuestas al cliente.
-- El cliente envía solicitudes por socket y recibe los resultados del servidor.
-
 ## Archivos principales
 
 - `servidor.py`: servidor TCP, pool de workers, persistencia SQLite.
 - `cliente.py`: cliente interactivo por consola.
-- `docs/index.html`: página de documentación para GitHub Pages.
-- `docs/diagrama.puml`: código PlantUML del diagrama.
+- `docs/index.html`: página de documentación.
