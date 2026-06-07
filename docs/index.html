@@ -1,249 +1,218 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PFO 3 - Sistema distribuido cliente-servidor</title>
-  <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PFO 3 - Sistema distribuido cliente-servidor</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f6f8;
-      color: #1f2933;
-      line-height: 1.65;
-    }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f4f6f8;
+        color: #1f2933;
+        line-height: 1.65;
+      }
 
-    header {
-      background: #102a43;
-      color: #ffffff;
-      padding: 42px 24px 36px;
-      text-align: center;
-    }
+      header {
+        background: #102a43;
+        color: #ffffff;
+        padding: 42px 24px 36px;
+        text-align: center;
+      }
 
-    header h1 {
-      font-size: 2rem;
-      margin-bottom: 8px;
-    }
+      header h1 {
+        font-size: 2rem;
+        margin-bottom: 8px;
+      }
 
-    header p {
-      color: #d9e2ec;
-      font-size: 1rem;
-    }
+      header p {
+        color: #d9e2ec;
+        font-size: 1rem;
+      }
 
-    main {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 34px 20px 56px;
-    }
+      main {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 34px 20px 56px;
+      }
 
-    section {
-      margin-bottom: 34px;
-    }
+      section {
+        margin-bottom: 34px;
+      }
 
-    h2 {
-      border-bottom: 2px solid #2f80ed;
-      color: #102a43;
-      font-size: 1.25rem;
-      margin-bottom: 16px;
-      padding-bottom: 6px;
-    }
+      h2 {
+        border-bottom: 2px solid #2f80ed;
+        color: #102a43;
+        font-size: 1.25rem;
+        margin-bottom: 16px;
+        padding-bottom: 6px;
+      }
 
-    h3 {
-      color: #243b53;
-      font-size: 1rem;
-      margin: 18px 0 8px;
-    }
+      h3 {
+        color: #243b53;
+        font-size: 1rem;
+        margin: 18px 0 8px;
+      }
 
-    p {
-      margin-bottom: 12px;
-    }
+      p {
+        margin-bottom: 12px;
+      }
 
-    ul, ol {
-      margin-left: 22px;
-      margin-bottom: 12px;
-    }
+      ul,
+      ol {
+        margin-left: 22px;
+        margin-bottom: 12px;
+      }
 
-    li {
-      margin-bottom: 6px;
-    }
+      li {
+        margin-bottom: 6px;
+      }
 
-    .grid {
-      display: grid;
-      gap: 14px;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    }
+      .grid {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      }
 
-    .card {
-      background: #ffffff;
-      border: 1px solid #d9e2ec;
-      border-radius: 8px;
-      padding: 16px;
-    }
+      .card {
+        background: #ffffff;
+        border: 1px solid #d9e2ec;
+        border-radius: 8px;
+        padding: 16px;
+      }
 
-    .card strong {
-      color: #102a43;
-      display: block;
-      margin-bottom: 6px;
-    }
+      .card strong {
+        color: #102a43;
+        display: block;
+        margin-bottom: 6px;
+      }
 
-    code {
-      background: #e4e7eb;
-      border-radius: 4px;
-      color: #102a43;
-      padding: 2px 5px;
-    }
+      code {
+        background: #e4e7eb;
+        border-radius: 4px;
+        color: #102a43;
+        padding: 2px 5px;
+      }
 
-    pre {
-      background: #102a43;
-      border-radius: 8px;
-      color: #d9e2ec;
-      font-size: 0.88rem;
-      overflow-x: auto;
-      padding: 16px;
-      margin: 10px 0 16px;
-    }
+      pre {
+        background: #102a43;
+        border-radius: 8px;
+        color: #d9e2ec;
+        font-size: 0.88rem;
+        overflow-x: auto;
+        padding: 16px;
+        margin: 10px 0 16px;
+      }
 
-    .diagram-code {
-      min-height: 360px;
-    }
+      .diagram-code {
+        min-height: 360px;
+      }
 
-    a {
-      color: #1f6feb;
-      text-decoration: none;
-    }
+      a {
+        color: #1f6feb;
+        text-decoration: none;
+      }
 
-    a:hover {
-      text-decoration: underline;
-    }
+      a:hover {
+        text-decoration: underline;
+      }
 
-    footer {
-      color: #627d98;
-      font-size: 0.88rem;
-      padding: 22px;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>PFO 3: Rediseño como Sistema Distribuido</h1>
-    <p>Gestión de tareas con arquitectura cliente-servidor, sockets TCP y pool de workers.</p>
-  </header>
-
-  <main>
-    <section>
-      <h2>Resumen</h2>
+      footer {
+        color: #627d98;
+        font-size: 0.88rem;
+        padding: 22px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>PFO 3: Rediseño como Sistema Distribuido</h1>
       <p>
-        El proyecto transforma la entrega anterior en una aplicación distribuida simple. El cliente de consola se conecta al servidor mediante sockets TCP, envía operaciones de gestión de tareas y recibe respuestas en JSON.
+        Gestión de tareas con arquitectura cliente-servidor, sockets TCP y pool
+        de workers.
       </p>
-      <p>
-        El servidor acepta múltiples conexiones, delega las solicitudes a un pool de hilos y guarda usuarios y tareas en SQLite como persistencia local del prototipo.
-      </p>
-    </section>
+    </header>
 
-    <section>
-      <h2>Componentes implementados</h2>
-      <div class="grid">
-        <div class="card">
-          <strong>Cliente TCP</strong>
-          <span>Menú interactivo para registrarse, iniciar sesión, crear, listar y eliminar tareas.</span>
+    <main>
+      <section>
+        <h2>Resumen</h2>
+        <p>
+          El proyecto transforma la entrega anterior en una aplicación
+          distribuida simple. El cliente de consola se conecta al servidor
+          mediante sockets TCP, envía operaciones de gestión de tareas y recibe
+          respuestas en JSON.
+        </p>
+        <p>
+          El servidor acepta múltiples conexiones, delega las solicitudes a un
+          pool de hilos y guarda usuarios y tareas en SQLite como persistencia
+          local del prototipo.
+        </p>
+      </section>
+
+      <section>
+        <h2>Componentes implementados</h2>
+        <div class="grid">
+          <div class="card">
+            <strong>Cliente TCP</strong>
+            <span
+              >Menú interactivo para registrarse, iniciar sesión, crear, listar
+              y eliminar tareas.</span
+            >
+          </div>
+          <div class="card">
+            <strong>Servidor TCP</strong>
+            <span
+              >Escucha conexiones en red y recibe solicitudes JSON terminadas en
+              salto de línea.</span
+            >
+          </div>
+          <div class="card">
+            <strong>Pool de workers</strong>
+            <span
+              >Procesa las tareas recibidas usando hilos administrados con
+              <code>ThreadPoolExecutor</code>.</span
+            >
+          </div>
+          <div class="card">
+            <strong>Persistencia</strong>
+            <span
+              >Usa SQLite para conservar usuarios, contraseñas hasheadas y
+              tareas.</span
+            >
+          </div>
         </div>
-        <div class="card">
-          <strong>Servidor TCP</strong>
-          <span>Escucha conexiones en red y recibe solicitudes JSON terminadas en salto de línea.</span>
-        </div>
-        <div class="card">
-          <strong>Pool de workers</strong>
-          <span>Procesa las tareas recibidas usando hilos administrados con <code>ThreadPoolExecutor</code>.</span>
-        </div>
-        <div class="card">
-          <strong>Persistencia</strong>
-          <span>Usa SQLite para conservar usuarios, contraseñas hasheadas y tareas.</span>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section>
-      <h2>Ejecución</h2>
-      <h3>Servidor</h3>
-      <pre>python3 servidor.py</pre>
-      <p>Opcionalmente:</p>
-      <pre>python3 servidor.py --host 127.0.0.1 --port 5001 --workers 4</pre>
+      <section>
+        <h2>Ejecución</h2>
+        <h3>Servidor</h3>
+        <pre>python3 servidor.py</pre>
+        <p>Opcionalmente:</p>
+        <pre>python3 servidor.py --host 127.0.0.1 --port 5001 --workers 4</pre>
 
-      <h3>Cliente</h3>
-      <pre>python3 cliente.py</pre>
-      <p>Opcionalmente:</p>
-      <pre>python3 cliente.py --host 127.0.0.1 --port 5001</pre>
-    </section>
+        <h3>Cliente</h3>
+        <pre>python3 cliente.py</pre>
+        <p>Opcionalmente:</p>
+        <pre>python3 cliente.py --host 127.0.0.1 --port 5001</pre>
+      </section>
 
-    <section>
-      <h2>Diagrama para el punto 1</h2>
-      <p>
-        El código está en formato PlantUML y también se encuentra en <code>docs/diagrama.puml</code>. Se puede pegar en herramientas gratuitas como <a href="https://www.planttext.com/">PlantText</a> o <a href="https://www.plantuml.com/plantuml/">PlantUML Online Server</a>.
-      </p>
-      <pre class="diagram-code">@startuml
-title PFO 3 - Arquitectura distribuida cliente-servidor
+      <section>
+        <h2>Diagrama de sistema distribuido para el punto 1</h2>
+        <img
+          src="../sistema-distribuido.png"
+          alt="Diagrama sistema distribuido"
+        />
+      </section>
+    </main>
 
-skinparam componentStyle rectangle
-skinparam shadowing false
-skinparam linetype ortho
-
-actor "Cliente web" as Web
-actor "Cliente movil" as Mobile
-
-node "Balanceador de carga\nNginx / HAProxy" as LB
-
-node "Servidor worker 1" as Worker1 {
-  component "Servidor TCP" as TCP1
-  component "Pool de hilos" as Pool1
-}
-
-node "Servidor worker 2" as Worker2 {
-  component "Servidor TCP" as TCP2
-  component "Pool de hilos" as Pool2
-}
-
-queue "Cola de mensajes\nRabbitMQ" as Rabbit
-database "PostgreSQL\nBase distribuida" as Postgres
-cloud "S3\nAlmacenamiento distribuido" as S3
-
-Web --&gt; LB : Solicitudes TCP/HTTP
-Mobile --&gt; LB : Solicitudes TCP/HTTP
-
-LB --&gt; TCP1 : Distribuye carga
-LB --&gt; TCP2 : Distribuye carga
-
-TCP1 --&gt; Pool1 : Asigna tareas
-TCP2 --&gt; Pool2 : Asigna tareas
-
-Pool1 &lt;--&gt; Rabbit : Eventos entre servidores
-Pool2 &lt;--&gt; Rabbit : Eventos entre servidores
-
-Pool1 --&gt; Postgres : Lee/escribe tareas
-Pool2 --&gt; Postgres : Lee/escribe tareas
-
-Pool1 --&gt; S3 : Adjuntos/backups
-Pool2 --&gt; S3 : Adjuntos/backups
-@enduml</pre>
-    </section>
-
-    <section>
-      <h2>Relación con la consigna</h2>
-      <ul>
-        <li>El diagrama incluye clientes web/móviles, balanceador, servidores workers, pools de hilos, RabbitMQ, PostgreSQL y S3.</li>
-        <li>El servidor recibe tareas por socket y las distribuye a workers.</li>
-        <li>El cliente envía tareas por socket y recibe resultados.</li>
-      </ul>
-    </section>
-  </main>
-
-  <footer>
-    PFO 3 - Programación sobre redes
-  </footer>
-</body>
+    <footer>PFO 3 - Programación sobre redes</footer>
+  </body>
 </html>
