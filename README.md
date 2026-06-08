@@ -1,3 +1,8 @@
+## Diagrama del sistema distribuido (Punto 1)
+
+<img width="5124" height="3219" alt="Web Client Load Balancing-2026-06-07-232844" src="https://github.com/user-attachments/assets/7222b8c7-9159-4811-94cb-90e295ad48a7" />
+
+
 # PFO 3: Rediseño como Sistema Distribuido Cliente-Servidor
 
 Sistema de gestión de tareas personales implementado con Python, sockets TCP y un servidor concurrente con pool de workers.
@@ -88,9 +93,4 @@ Respuesta:
 - `servidor.py`: servidor TCP, pool de workers, persistencia SQLite.
 - `cliente.py`: cliente interactivo por consola.
 - `docs/index.html`: página de documentación.
-
-## Diagrama del sistema distribuido (Punto 1)
-
-<img width="5124" height="3219" alt="Web Client Load Balancing-2026-06-07-232844" src="https://github.com/user-attachments/assets/7222b8c7-9159-4811-94cb-90e295ad48a7" />
-
 
